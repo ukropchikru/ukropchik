@@ -873,3 +873,9 @@ p { margin: 0 0 1em; }
   .theme-btn, .install-bar { display: none !important; }
   .shop-list label { background: none; padding: 4px 0; }
 }
+
+/* вход через Google и ввод кода */
+.divider { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: .9rem; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--field-line); }
+[data-google] { color: var(--ink); }
+.code-input { font-size: 1.6rem; letter-spacing: .4em; text-align: center; font-weight: 700; }

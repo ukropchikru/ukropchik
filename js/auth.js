@@ -1,19 +1,22 @@
 /* Вход, регистрация, выбор плана, восстановление пароля */
 (function () {
   const { toast, userReady } = window.UI;
-  const STEPS = ['login', 'register', 'plan', 'recovery'];
+  const STEPS = ['login', 'register', 'confirm', 'plan', 'recovery'];
   let user = null;
   let recovering = /type=recovery/.test(location.hash);
 
   function show(step) {
     if (!STEPS.includes(step)) step = 'login';
+    if (step === 'confirm' && !pendingEmail()) step = 'register';
+    if (step === 'confirm') document.getElementById('confirm-email').textContent = pendingEmail();
     if (step === 'plan' && !user) {
       toast('Сначала войдите или зарегистрируйтесь', 'error');
       step = 'login';
     }
     document.querySelectorAll('[data-panel]').forEach((p) => p.classList.toggle('hidden', p.dataset.panel !== step));
     document.querySelectorAll('.step').forEach((s) => s.classList.toggle('active', s.dataset.step === step));
-    document.title = { login: 'Вход в аккаунт', register: 'Регистрация', plan: 'Выбор плана', recovery: 'Новый пароль' }[step] + ' — Укропчик';
+    document.title = { login: 'Вход в аккаунт', register: 'Регистрация', confirm: 'Подтверждение почты', plan: 'Выбор плана', recovery: 'Новый пароль' }[step] + ' — Укропчик';
+
     if (step === 'plan') document.getElementById('plan-current').textContent = user.plan === 'personal' ? 'Персональный' : 'Базовый';
   }
 
@@ -77,6 +80,14 @@
     return '';
   }
 
+  /* почта, на которую отправлен код подтверждения */
+  const pendingEmail = () => DB.store.get('pending_email', '');
+  function askForCode(email) {
+    DB.store.set('pending_email', email);
+    if (location.hash === '#confirm') show('confirm');
+    else location.hash = 'confirm';
+  }
+
   function lock(form, locked) {
     form.querySelector('button[type="submit"]').disabled = locked;
   }
@@ -102,17 +113,9 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'link-btn';
-        btn.textContent = 'Отправить письмо ещё раз';
+        btn.textContent = 'Ввести код';
         btn.style.marginLeft = '8px';
-        btn.addEventListener('click', async () => {
-          btn.disabled = true;
-          try {
-            await DB.auth.resendConfirmation(loginForm.email.value.trim());
-            toast('Письмо отправлено повторно — проверьте почту и папку «Спам»');
-          } catch (e2) {
-            toast(e2.message, 'error');
-          }
-        });
+        btn.addEventListener('click', () => askForCode(loginForm.email.value.trim()));
         err.appendChild(btn);
       }
       lock(loginForm, false);
@@ -176,9 +179,8 @@
     try {
       const { needsConfirm } = await DB.auth.signUp({ name, email, password: regForm.password.value });
       if (needsConfirm) {
-        regForm.querySelector('.form-note')?.remove();
-        regForm.insertAdjacentHTML('afterbegin', `<p class="form-note">📩 Мы отправили письмо на <b>${UI.esc(email)}</b>. Перейдите по ссылке из письма — и вы сразу войдёте. Если письма нет, проверьте папку «Спам».</p>`);
         lock(regForm, false);
+        askForCode(email);
         return;
       }
       // перезагрузка обновит шапку и откроет шаг выбора плана
@@ -232,6 +234,56 @@
       err.textContent = error.message;
       lock(recForm, false);
     }
+  });
+
+  /* ---------- код подтверждения ---------- */
+  const confirmForm = document.getElementById('confirm-form');
+  confirmForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const err = confirmForm.querySelector('.form-error');
+    const code = confirmForm.code.value.replace(/\D/g, '');
+    if (code.length < 6) {
+      err.textContent = 'Введите код из письма — 6 цифр';
+      return;
+    }
+    err.textContent = '';
+    lock(confirmForm, true);
+    try {
+      await DB.auth.verifySignupCode(pendingEmail(), code);
+      DB.store.remove('pending_email');
+      location.hash = 'plan';
+      location.reload();
+    } catch (error) {
+      err.textContent = error.message;
+      lock(confirmForm, false);
+    }
+  });
+  confirmForm.code.addEventListener('input', () => {
+    confirmForm.code.value = confirmForm.code.value.replace(/\D/g, '');
+  });
+  document.getElementById('resend-code').addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    btn.disabled = true;
+    try {
+      await DB.auth.resendConfirmation(pendingEmail());
+      toast('Новый код отправлен — проверьте почту и папку «Спам»');
+    } catch (error) {
+      toast(error.message, 'error');
+    }
+    setTimeout(() => { btn.disabled = false; }, 60000);
+  });
+
+  /* ---------- вход через Google ---------- */
+  document.querySelectorAll('[data-google]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      try {
+        await DB.auth.signInWithGoogle();
+      } catch (error) {
+        toast(error.message, 'error');
+        btn.disabled = false;
+      }
+    });
   });
 
   userReady.then((u) => {

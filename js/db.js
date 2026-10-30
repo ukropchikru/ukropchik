@@ -34,7 +34,9 @@
     [/invalid login credentials/i, 'Неверная почта или пароль'],
     [/already registered|already exists/i, 'Пользователь с такой почтой уже зарегистрирован'],
     [/password should be at least/i, 'Пароль слишком короткий — минимум 6 символов'],
-    [/email not confirmed/i, 'Почта не подтверждена. Откройте письмо от Укропчика и перейдите по ссылке'],
+    [/email not confirmed/i, 'Почта не подтверждена. Введите код из письма от Укропчика'],
+    [/token has expired|otp.*(expired|invalid)|invalid.*otp/i, 'Код неверный или устарел. Запросите новый'],
+    [/provider is not enabled|unsupported provider/i, 'Вход через Google ещё не включён в настройках базы данных'],
     [/error sending|sending (confirmation|recovery|magic)/i, 'Не удалось отправить письмо. Проверьте адрес почты или попробуйте позже'],
     [/email address .* is invalid|email_address_invalid/i, 'Такой адрес почты не принимается — проверьте его'],
     [/unable to validate email|invalid email|invalid format/i, 'Некорректный адрес почты'],
@@ -126,6 +128,14 @@
       },
       async resendConfirmation(email) {
         await run(sb.auth.resend({ type: 'signup', email, options: { emailRedirectTo: pageUrl('login.html') } }));
+      },
+      async verifySignupCode(email, code) {
+        await run(sb.auth.verifyOtp({ email, token: code, type: 'signup' }));
+        rememberSession(true);
+      },
+      async signInWithGoogle() {
+        rememberSession(true);
+        await run(sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: pageUrl('login.html') } }));
       },
       async resetPassword(email) {
         await run(sb.auth.resetPasswordForEmail(email, { redirectTo: pageUrl('login.html') }));
@@ -247,6 +257,10 @@
         throw new Error('В демо-режиме восстановление пароля недоступно — подключите базу данных');
       },
       async resendConfirmation() {},
+      async verifySignupCode() {},
+      async signInWithGoogle() {
+        throw new Error('В демо-режиме вход через Google недоступен — подключите базу данных');
+      },
       async updatePassword() {},
       onPasswordRecovery() {},
     },
