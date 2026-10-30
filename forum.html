@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Форум — Укропчик</title>
+  <meta name="description" content="Обсуждайте рецепты, задавайте вопросы и делитесь опытом здорового питания.">
+  <meta name="theme-color" content="#2d5f3b">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Укропчик">
+  <script src="js/theme.js"></script>
+  <link rel="preload" href="fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/vendor/supabase.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/db.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/forum.js"></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1>Форум</h1>
+        <p>Делитесь рецептами, задавайте вопросы и поддерживайте друг друга на пути к здоровому питанию.</p>
+      </div>
+    </section>
+
+    <section class="container" style="padding-bottom:64px">
+      <div class="forum-layout">
+        <div>
+          <div class="forum-tools">
+            <label class="sr-only" for="search">Поиск по темам</label>
+            <input class="input" id="search" type="search" placeholder="🔍 Поиск по темам">
+            <select class="select" id="topic-filter" aria-label="Раздел" style="max-width:220px">
+              <option value="">Все разделы</option>
+            </select>
+          </div>
+          <div class="posts" id="posts" aria-live="polite"><p class="muted">Загрузка…</p></div>
+        </div>
+
+        <aside class="card" id="new-post-box">
+          <h3>Новая тема</h3>
+          <div id="new-post-auth" class="hidden">
+            <p class="form-note">Чтобы создавать темы и отвечать, <a href="login.html">войдите</a> или <a href="login.html#register">зарегистрируйтесь</a>.</p>
+          </div>
+          <form id="new-post" class="hidden" style="display:grid;gap:14px" novalidate>
+            <div class="field">
+              <label for="np-topic">Раздел</label>
+              <select class="select" id="np-topic" name="topic"></select>
+            </div>
+            <div class="field">
+              <label for="np-title">Заголовок</label>
+              <input class="input" id="np-title" name="title" maxlength="150" required>
+            </div>
+            <div class="field">
+              <label for="np-body">Сообщение</label>
+              <textarea class="textarea" id="np-body" name="body" maxlength="5000" required></textarea>
+            </div>
+            <p class="form-error" role="alert"></p>
+            <button class="btn btn-primary btn-block" type="submit">Опубликовать</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

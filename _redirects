@@ -1,0 +1,11 @@
+# Прокси Netlify: браузер обращается только к домену сайта,
+# а Netlify сам пересылает запросы дальше. Нужно, чтобы сайт работал в России без VPN.
+
+# база данных Supabase
+/sb/*   https://afzroggvqgadcozukiwy.supabase.co/:splat   200
+
+# база продуктов для сканера штрихкодов
+/off/*  https://world.openfoodfacts.org/:splat   200
+
+# проверка почтового домена при регистрации (DNS-over-HTTPS)
+/dns/*  https://dns.google/:splat   200

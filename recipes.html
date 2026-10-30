@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Рецепты — Укропчик</title>
+  <meta name="description" content="Полезные рецепты с калорийностью и БЖУ: завтраки, обеды, ужины и перекусы. Фильтры: вегетарианское, без глютена, без лактозы.">
+  <meta name="theme-color" content="#2d5f3b">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Укропчик">
+  <script src="js/theme.js"></script>
+  <link rel="preload" href="fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/vendor/supabase.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/db.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/recipes-data.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/plan.js"></script>
+  <script defer src="js/recipes.js"></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1>Рецепты</h1>
+        <p>Простые блюда с подсчитанными калориями и БЖУ. Добавляйте их в рацион или дневник питания в один клик.</p>
+      </div>
+    </section>
+
+    <section class="container" style="padding-bottom:64px">
+      <div class="filters">
+        <label class="sr-only" for="r-search">Поиск</label>
+        <input class="input" id="r-search" type="search" placeholder="🔍 Найти рецепт или продукт">
+        <div class="segmented" id="r-meal" aria-label="Приём пищи">
+          <button type="button" data-meal="" class="active">Все</button>
+          <button type="button" data-meal="breakfast">Завтраки</button>
+          <button type="button" data-meal="lunch">Обеды</button>
+          <button type="button" data-meal="dinner">Ужины</button>
+          <button type="button" data-meal="snack">Перекусы</button>
+        </div>
+      </div>
+      <div class="chips" id="r-tags" style="margin:0 0 28px" aria-label="Особенности"></div>
+      <div class="recipes" id="recipes" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <dialog class="modal" id="recipe-modal" aria-labelledby="rm-title">
+    <button class="icon-btn modal-close" type="button" data-close aria-label="Закрыть">✕</button>
+    <div class="modal-body recipe-detail" id="recipe-detail"></div>
+  </dialog>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

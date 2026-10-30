@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Сканер продуктов — Укропчик</title>
+  <meta name="description" content="Отсканируйте штрихкод продукта камерой телефона: состав, КБЖУ, Nutri-Score и полезная замена.">
+  <meta name="theme-color" content="#2d5f3b">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Укропчик">
+  <script src="js/theme.js"></script>
+  <link rel="preload" href="fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/vendor/supabase.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/db.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/scanner.js"></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1>Сканер продуктов</h1>
+        <p>Наведите камеру на штрихкод упаковки — покажем состав, калорийность, оценку Nutri-Score и подскажем полезную замену.</p>
+      </div>
+    </section>
+
+    <section class="container" style="padding-bottom:64px;max-width:760px">
+      <div class="card">
+        <div class="scanner-frame hidden" id="frame">
+          <video id="video" playsinline muted></video>
+          <div class="scan-line" aria-hidden="true"></div>
+        </div>
+        <div class="hero-actions" style="margin:0 0 20px">
+          <button class="btn btn-primary btn-lg" type="button" id="cam-btn">📷 Включить камеру</button>
+          <button class="btn btn-ghost btn-lg hidden" type="button" id="stop-btn">Остановить</button>
+        </div>
+        <p class="form-error" id="cam-error" role="alert"></p>
+
+        <form class="inline-form" id="code-form" novalidate>
+          <div class="field">
+            <label for="code">Или введите цифры штрихкода</label>
+            <input class="input" id="code" name="code" inputmode="numeric" pattern="[0-9]*" maxlength="14" placeholder="4600000000000" autocomplete="off">
+          </div>
+          <button class="btn btn-lime" type="submit">Найти</button>
+        </form>
+        <div class="chips" id="examples">
+          <span class="small muted" style="align-self:center">Примеры:</span>
+          <button type="button" class="chip" data-code="5449000000996">🥤 Coca-Cola</button>
+          <button type="button" class="chip" data-code="3017620422003">🍫 Nutella</button>
+        </div>
+        <div class="chips hidden" id="recent"></div>
+      </div>
+
+      <div id="product" aria-live="polite" style="margin-top:24px"></div>
+      <p class="disclaimer">Данные о продуктах — из открытой базы <a href="https://ru.openfoodfacts.org" target="_blank" rel="noopener">Open Food Facts</a>, их заполняют пользователи. Если продукта нет, его можно добавить на сайте базы.</p>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

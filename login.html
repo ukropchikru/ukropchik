@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход в аккаунт — Укропчик</title>
+  <meta name="theme-color" content="#2d5f3b">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Укропчик">
+  <script src="js/theme.js"></script>
+  <link rel="preload" href="fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/vendor/supabase.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/db.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/auth.js"></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="auth-wrap">
+    <div class="container" style="max-width:1000px">
+      <nav class="steps" aria-label="Шаги">
+        <a class="step" href="#login" data-step="login">1. Вход</a>
+        <a class="step" href="#register" data-step="register">2. Регистрация</a>
+        <a class="step" href="#plan" data-step="plan">3. Выбор плана</a>
+      </nav>
+
+      <!-- Вход -->
+      <section data-panel="login">
+        <h1 class="auth-title">Вход в аккаунт</h1>
+        <p class="auth-lead">Используйте почту и пароль, чтобы быстро вернуться в сервис. Если аккаунта ещё нет, перейдите к регистрации.</p>
+        <form class="card auth-card" id="login-form" novalidate>
+          <div class="field">
+            <label for="l-email">Почта</label>
+            <div class="input-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <input class="input" id="l-email" name="email" type="email" autocomplete="email" placeholder="name@ukropchik.ru" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="l-pass">Пароль</label>
+            <div class="input-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <input class="input" id="l-pass" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+              <button class="icon-btn" type="button" data-eye aria-label="Показать пароль">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="auth-row">
+            <label class="checkbox"><input type="checkbox" name="remember" checked> Запомнить меня</label>
+            <a href="#" id="forgot">Забыли пароль?</a>
+          </div>
+          <p class="form-error" role="alert"></p>
+          <button class="btn btn-primary btn-block btn-lg" type="submit">Войти →</button>
+        </form>
+        <p class="auth-switch">Нет аккаунта? <a href="#register">Зарегистрироваться</a></p>
+      </section>
+
+      <!-- Регистрация -->
+      <section data-panel="register" class="hidden">
+        <h1 class="auth-title">Регистрация</h1>
+        <p class="auth-lead">Аккаунт нужен, чтобы сохранять рационы и общаться на форуме. Калькуляторы работают и без него.</p>
+        <form class="card auth-card" id="register-form" novalidate>
+          <div class="field">
+            <label for="r-name">Имя</label>
+            <input class="input" id="r-name" name="name" autocomplete="name" maxlength="60" placeholder="Как к вам обращаться" required>
+          </div>
+          <div class="field">
+            <label for="r-email">Почта</label>
+            <div class="input-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <input class="input" id="r-email" name="email" type="email" autocomplete="email" placeholder="name@ukropchik.ru" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="r-pass">Пароль</label>
+            <div class="input-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+              <input class="input" id="r-pass" name="password" type="password" autocomplete="new-password" placeholder="Минимум 6 символов" required>
+              <button class="icon-btn" type="button" data-eye aria-label="Показать пароль">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="pass-meter" aria-hidden="true"><div id="pass-meter"></div></div>
+            <span class="small muted" id="pass-hint"></span>
+          </div>
+          <div class="field">
+            <label for="r-pass2">Повторите пароль</label>
+            <input class="input" id="r-pass2" name="password2" type="password" autocomplete="new-password" required>
+          </div>
+          <label class="checkbox"><input type="checkbox" name="agree" required> Согласен на обработку персональных данных</label>
+          <p class="form-error" role="alert"></p>
+          <button class="btn btn-primary btn-block btn-lg" type="submit">Создать аккаунт →</button>
+        </form>
+        <p class="auth-switch">Уже есть аккаунт? <a href="#login">Войти</a></p>
+      </section>
+
+      <!-- Выбор плана -->
+      <section data-panel="plan" class="hidden">
+        <h1 class="auth-title">Выбор плана</h1>
+        <p class="auth-lead">Все основные инструменты бесплатны. Персональный план — для тех, кому нужна поддержка нутрициолога.</p>
+        <div class="plans" style="max-width:none">
+          <article class="card plan">
+            <h3>Базовый</h3>
+            <div class="plan-price">0 ₽ <small>навсегда</small></div>
+            <ul class="check-list">
+              <li>Калькулятор ИМТ и калорий</li>
+              <li>Рекомендации и сравнение продуктов</li>
+              <li>Конструктор рациона и сохранение меню</li>
+              <li>Форум сообщества</li>
+            </ul>
+            <button class="btn btn-lime btn-block" type="button" data-plan="basic">Выбрать базовый</button>
+          </article>
+          <article class="card plan featured">
+            <span class="plan-tag">С поддержкой</span>
+            <h3>Персональный</h3>
+            <div class="plan-price">990 ₽ <small>/ месяц</small></div>
+            <ul class="check-list">
+              <li>Всё из базового плана</li>
+              <li>Консультация нутрициолога онлайн</li>
+              <li>Меню на месяц под ваши цели</li>
+              <li>Еженедельная обратная связь</li>
+            </ul>
+            <button class="btn btn-primary btn-block" type="button" data-plan="personal">Оставить заявку</button>
+          </article>
+        </div>
+        <p class="form-note" id="plan-note" style="margin-top:24px">Текущий план: <b id="plan-current">—</b></p>
+      </section>
+
+      <!-- Новый пароль (после ссылки из письма) -->
+      <section data-panel="recovery" class="hidden">
+        <h1 class="auth-title">Новый пароль</h1>
+        <form class="card auth-card" id="recovery-form" novalidate>
+          <div class="field">
+            <label for="n-pass">Новый пароль</label>
+            <input class="input" id="n-pass" name="password" type="password" autocomplete="new-password" required>
+          </div>
+          <p class="form-error" role="alert"></p>
+          <button class="btn btn-primary btn-block btn-lg" type="submit">Сохранить пароль</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

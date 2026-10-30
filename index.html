@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Укропчик — здоровое питание для каждого</title>
+  <meta name="description" content="Бесплатный калькулятор ИМТ и калорий, сравнение полезных и вредных продуктов, конструктор рациона на день и неделю.">
+  <meta name="theme-color" content="#2d5f3b">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Укропчик">
+  <script src="js/theme.js"></script>
+  <link rel="preload" href="fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/vendor/supabase.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/db.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/home.js"></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <h1>Здоровое питание — <span>бесплатно</span> и&nbsp;для&nbsp;каждого</h1>
+          <p class="hero-lead">Рассчитайте индекс массы тела, узнайте свою норму калорий, соберите сбалансированное меню и найдите полезную замену любимым продуктам.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="calculator.html">Рассчитать ИМТ</a>
+            <a class="btn btn-ghost btn-lg" href="diet.html">Собрать рацион</a>
+          </div>
+          <div class="hero-badges">
+            <span class="badge">✓ Без подписки</span>
+            <span class="badge">✓ Без скрытых платежей</span>
+            <span class="badge">✓ Сразу после входа на сайт</span>
+          </div>
+        </div>
+
+        <form class="card reveal" id="quick-bmi" novalidate>
+          <h3>Быстрый расчёт ИМТ</h3>
+          <p class="muted small">Займёт 10 секунд</p>
+          <div class="form-grid">
+            <div class="field">
+              <label for="qb-height">Рост, см</label>
+              <input class="input" id="qb-height" name="height" type="number" inputmode="decimal" min="100" max="250" placeholder="170" required>
+            </div>
+            <div class="field">
+              <label for="qb-weight">Вес, кг</label>
+              <input class="input" id="qb-weight" name="weight" type="number" inputmode="decimal" min="25" max="300" placeholder="65" required>
+            </div>
+            <button class="btn btn-lime btn-block full" type="submit">Узнать ИМТ</button>
+          </div>
+          <div id="qb-result" class="hidden" style="margin-top:20px">
+            <div class="stat">
+              <div class="stat-label">Ваш индекс массы тела</div>
+              <div class="stat-value" id="qb-value">—</div>
+              <div class="stat-note" id="qb-note"></div>
+            </div>
+            <a class="btn btn-ghost btn-block" style="margin-top:12px" href="calculator.html">Подробные рекомендации →</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Инструменты -->
+    <section class="section" id="tools" style="padding-top:0">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Все инструменты — бесплатно</h2>
+          <p>Работают сразу, без регистрации. Аккаунт нужен только чтобы синхронизировать данные между устройствами.</p>
+        </div>
+        <div class="swap-grid">
+          <a class="swap reveal" href="calculator.html" style="text-decoration:none;color:inherit"><div class="swap-emoji" style="background:var(--green-100)">⚖️</div><h3>Калькулятор ИМТ</h3><p class="muted" style="margin:0">Норма калорий, БЖУ и воды с советами под вашу цель</p></a>
+          <a class="swap reveal" href="diet.html" style="text-decoration:none;color:inherit"><div class="swap-emoji" style="background:var(--green-100)">🗓️</div><h3>Конструктор рациона</h3><p class="muted" style="margin:0">Меню на день или неделю и готовый список покупок</p></a>
+          <a class="swap reveal" href="recipes.html" style="text-decoration:none;color:inherit"><div class="swap-emoji" style="background:var(--green-100)">🥗</div><h3>Рецепты</h3><p class="muted" style="margin:0">С КБЖУ и фильтрами: вегетарианское, без глютена, быстро</p></a>
+          <a class="swap reveal" href="diary.html" style="text-decoration:none;color:inherit"><div class="swap-emoji" style="background:var(--green-100)">📔</div><h3>Дневник питания</h3><p class="muted" style="margin:0">Отмечайте съеденное и сравнивайте с нормой</p></a>
+          <a class="swap reveal" href="scanner.html" style="text-decoration:none;color:inherit"><div class="swap-emoji" style="background:var(--green-100)">📷</div><h3>Сканер продуктов</h3><p class="muted" style="margin:0">Наведите камеру на штрихкод — узнайте состав и замену</p></a>
+          <a class="swap reveal" href="account.html" style="text-decoration:none;color:inherit"><div class="swap-emoji" style="background:var(--green-100)">📈</div><h3>Личный кабинет</h3><p class="muted" style="margin:0">График веса, история расчётов и напоминания пить воду</p></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- О нас -->
+    <section class="section" id="about">
+      <div class="container">
+        <h2 class="title-green reveal">Добро пожаловать в Укропчик!</h2>
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <p>Мы — команда энтузиастов здорового образа жизни, которая верит, что правильное питание должно быть доступным, понятным и вкусным для каждого.</p>
+            <p>Наша миссия — помочь людям построить здоровые пищевые привычки, которые приведут к долгой, активной и счастливой жизни.</p>
+            <p>Будь то похудение, набор мышечной массы или просто желание питаться здоровее — Укропчик станет вашим надёжным проводником.</p>
+          </div>
+          <div class="photo reveal">
+            <img src="img/family.jpg" alt="Семья за обеденным столом с домашней едой" width="702" height="400" loading="lazy">
+          </div>
+        </div>
+
+        <div class="features">
+          <article class="feature card-outline reveal">
+            <div class="feature-icon" aria-hidden="true">🎯</div>
+            <div>
+              <h3>Персонализация</h3>
+              <p>Индивидуальные рекомендации на основе ваших целей</p>
+            </div>
+          </article>
+          <article class="feature card-outline reveal">
+            <div class="feature-icon" aria-hidden="true">📚</div>
+            <div>
+              <h3>Экспертные знания</h3>
+              <p>Информация от сертифицированных нутрициологов</p>
+            </div>
+          </article>
+          <article class="feature card-outline reveal">
+            <div class="feature-icon" aria-hidden="true">🤝</div>
+            <div>
+              <h3>Сообщество</h3>
+              <p>Поддержка единомышленников и обмен опытом на форуме</p>
+            </div>
+          </article>
+          <article class="feature card-outline reveal">
+            <div class="feature-icon" aria-hidden="true">📊</div>
+            <div>
+              <h3>Научный подход</h3>
+              <p>Все рекомендации основаны на исследованиях и нормах ВОЗ</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Правильное питание -->
+    <section class="section" id="nutrition">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Правильное питание</h2>
+          <p>Основы здорового рациона для каждого</p>
+        </div>
+        <div class="nutrition-grid">
+          <div class="reveal">
+            <h3>Что такое правильное питание?</h3>
+            <p>Правильное питание — это сбалансированный рацион, который обеспечивает организм всеми необходимыми питательными веществами.</p>
+            <ul class="dot-list">
+              <li>Баланс белков, жиров и углеводов</li>
+              <li>Достаточное потребление воды</li>
+              <li>Регулярные приёмы пищи</li>
+              <li>Натуральные продукты без добавок</li>
+              <li>Разнообразие в рационе</li>
+              <li>Контроль порций</li>
+            </ul>
+            <a class="btn btn-lime btn-lg" href="diet.html">Создать свой рацион</a>
+          </div>
+          <div class="photo square reveal">
+            <img src="img/plate.jpg" alt="Тарелка с куриной грудкой, авокадо, киноа и свежими овощами" width="712" height="602" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Сравнение продуктов -->
+    <section class="section" id="compare">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Полезная замена привычным продуктам</h2>
+          <p>Маленькие замены дают большой результат. Посмотрите, сколько калорий, сахара и соли можно сэкономить.</p>
+        </div>
+        <div class="swap-grid" id="swap-preview"></div>
+        <div class="center" style="margin-top:36px">
+          <a class="btn btn-primary btn-lg" href="calculator.html#compare">Сравнить все продукты</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Услуги -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Услуги</h2>
+          <p>Ключевые инструменты бесплатны навсегда. Для тех, кому нужна личная поддержка, есть работа с нутрициологом.</p>
+        </div>
+        <div class="plans">
+          <article class="card plan reveal">
+            <h3>Базовый</h3>
+            <div class="plan-price">0 ₽ <small>навсегда</small></div>
+            <p class="muted">Всё необходимое, чтобы начать питаться правильно.</p>
+            <ul class="check-list">
+              <li>Калькулятор ИМТ и нормы калорий</li>
+              <li>Персональные рекомендации по питанию</li>
+              <li>Сравнение полезных и вредных продуктов</li>
+              <li>Конструктор рациона и список покупок</li>
+              <li>Дневник питания и дневник веса</li>
+              <li>Рецепты и сканер продуктов</li>
+              <li>Форум сообщества</li>
+            </ul>
+            <a class="btn btn-lime btn-block" href="calculator.html">Начать бесплатно</a>
+          </article>
+          <article class="card plan featured reveal">
+            <span class="plan-tag">С поддержкой</span>
+            <h3>Персональный</h3>
+            <div class="plan-price">990 ₽ <small>/ месяц</small></div>
+            <p class="muted">Всё из базового плана плюс сопровождение специалиста.</p>
+            <ul class="check-list">
+              <li>Консультация нутрициолога онлайн</li>
+              <li>Меню на месяц под ваши цели и вкусы</li>
+              <li>Разбор анализов и привычек</li>
+              <li>Еженедельная обратная связь в чате</li>
+            </ul>
+            <a class="btn btn-primary btn-block" href="login.html#plan">Оставить заявку</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="section" id="contacts">
+      <div class="container">
+        <div class="card-outline contact-card reveal">
+          <h2>Свяжитесь с нами</h2>
+          <p>Мы всегда рады помочь! Напишите нам на почту, позвоните или приходите в офис.</p>
+          <div class="hero-actions" style="justify-content:center;margin-top:0">
+            <a class="btn btn-ghost" href="https://vk.ru/ykropchikoffc" target="_blank" rel="noopener">Мы ВКонтакте →</a>
+            <a class="btn btn-ghost" href="https://t.me/+BkpTLZr-AuQ0MTNi" target="_blank" rel="noopener">Мы в Telegram →</a>
+          </div>
+          <form class="contact-form" id="contact-form" novalidate>
+            <div class="field">
+              <label for="c-name">Имя</label>
+              <input class="input" id="c-name" name="name" autocomplete="name" maxlength="100" required>
+            </div>
+            <div class="field">
+              <label for="c-email">Почта</label>
+              <input class="input" id="c-email" name="email" type="email" autocomplete="email" maxlength="200" required>
+            </div>
+            <div class="field full">
+              <label for="c-message">Сообщение</label>
+              <textarea class="textarea" id="c-message" name="message" maxlength="3000" required></textarea>
+            </div>
+            <p class="form-error full" role="alert"></p>
+            <div class="full center">
+              <button class="btn btn-primary btn-lg" type="submit">Отправить</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

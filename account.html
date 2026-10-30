@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Личный кабинет — Укропчик</title>
+  <meta name="theme-color" content="#2d5f3b">
+  <link rel="icon" href="img/logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Укропчик">
+  <script src="js/theme.js"></script>
+  <link rel="preload" href="fonts/inter-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/vendor/supabase.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/db.js"></script>
+  <script defer src="js/data.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/account.js"></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <h1>Личный кабинет</h1>
+      </div>
+    </section>
+
+    <section class="container" style="padding-bottom:64px">
+      <div class="account-grid">
+        <div class="card wide" id="profile"><p class="muted">Загрузка…</p></div>
+
+        <div class="card wide">
+          <h2 style="font-size:1.5rem">Дневник веса</h2>
+          <form class="inline-form" id="weight-form" novalidate>
+            <div class="field">
+              <label for="w-date">Дата</label>
+              <input class="input" type="date" id="w-date" name="date" required>
+            </div>
+            <div class="field">
+              <label for="w-value">Вес, кг</label>
+              <input class="input" type="number" id="w-value" name="weight" inputmode="decimal" min="20" max="400" step="0.1" placeholder="65,5" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Записать</button>
+          </form>
+          <div class="result-grid" style="margin-top:20px" id="w-stats"></div>
+          <div class="chart-box" id="w-chart"></div>
+          <details>
+            <summary class="link-btn" style="display:inline">Все записи</summary>
+            <div class="table-wrap"><table class="table" id="w-table"></table></div>
+          </details>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:1.5rem">История расчётов</h2>
+          <div class="table-wrap" id="calcs"><p class="muted">Загрузка…</p></div>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:1.5rem">Настройки</h2>
+
+          <div class="setting">
+            <label for="theme-select"><b>Тема оформления</b></label>
+            <select class="select" id="theme-select">
+              <option value="system">Как в системе</option>
+              <option value="light">Светлая</option>
+              <option value="dark">Тёмная</option>
+            </select>
+          </div>
+
+          <div class="setting">
+            <div>
+              <b>Напоминания пить воду</b>
+              <div class="small muted" id="rem-status"></div>
+            </div>
+            <label class="switch"><input type="checkbox" id="rem-on" aria-label="Напоминания о воде"><span></span></label>
+          </div>
+          <div class="setting" id="rem-settings">
+            <label for="rem-every">Как часто</label>
+            <select class="select" id="rem-every">
+              <option value="60">каждый час</option>
+              <option value="90">раз в 1,5 часа</option>
+              <option value="120">раз в 2 часа</option>
+              <option value="180">раз в 3 часа</option>
+            </select>
+            <span>с <select class="select" id="rem-from" aria-label="С какого часа"></select>
+              до <select class="select" id="rem-to" aria-label="До какого часа"></select></span>
+            <button class="btn btn-ghost btn-sm" type="button" id="rem-test">Проверить</button>
+          </div>
+          <p class="small muted">Напоминания приходят, пока сайт или приложение открыто — в том числе в фоне. Чтобы они приходили чаще, установите Укропчик как приложение.</p>
+
+          <div class="setting">
+            <div>
+              <b>Приложение на телефон</b>
+              <div class="small muted" id="install-status"></div>
+            </div>
+            <button class="btn btn-primary btn-sm hidden" type="button" id="install-btn">Установить</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

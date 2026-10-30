@@ -1,0 +1,21 @@
+{
+  "name": "Укропчик — здоровое питание",
+  "short_name": "Укропчик",
+  "description": "Калькулятор ИМТ и калорий, конструктор рациона, дневник питания, рецепты и сканер продуктов.",
+  "lang": "ru",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4fbf1",
+  "theme_color": "#2d5f3b",
+  "icons": [
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "img/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Дневник питания", "url": "./diary.html", "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Сканер продуктов", "url": "./scanner.html", "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Калькулятор", "url": "./calculator.html", "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
